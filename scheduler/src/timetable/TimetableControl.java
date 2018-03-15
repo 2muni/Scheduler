@@ -1,13 +1,10 @@
 package timetable;
 
-import java.awt.Color;
-import java.awt.Font;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
+import system.Properties;
 
 public class TimetableControl {
 	
+	Properties prop;
 	TimetableView view;
 	TimetableModel model;
 	
@@ -15,6 +12,7 @@ public class TimetableControl {
 	final int NUMBER_OF_ROWS;
 	
 	TimetableControl(TimetableView view){
+		prop = new Properties();
 		this.view = view;
 		model = new TimetableModel();
 		

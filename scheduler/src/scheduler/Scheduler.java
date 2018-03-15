@@ -1,17 +1,26 @@
 package scheduler;
 
-import java.awt.Font;
-
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import calendar.CalendarView;
 import system.Properties;
 import timetable.TimetableView;
+
 public class Scheduler extends JFrame {
 	Properties prop;
 	
 	Scheduler(){
+		
+		try{
+			UIManager.setLookAndFeel ("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+			SwingUtilities.updateComponentTreeUI(this) ;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 		prop = new Properties();
 		
 		setTitle("Scheduler");
@@ -20,7 +29,7 @@ public class Scheduler extends JFrame {
         setLocationRelativeTo(null);
         
         JTabbedPane tab = new JTabbedPane();
-        tab.setFont(new Font("¸¼Àº °íµñ", Font.BOLD,16));
+        tab.setFont(prop.getFont16(false));
         
         
         TimetableView tab_1 = new TimetableView();
@@ -31,6 +40,9 @@ public class Scheduler extends JFrame {
         add(tab);
 		setVisible(true);
 		setResizable(false);
+		
+		
+		
 	}
 
 	public static void main(String[] args) {

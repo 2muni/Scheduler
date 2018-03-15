@@ -11,8 +11,8 @@ public class TimetableModel {
 	
 	
     private final String[] WEEKDAY = {"", "월요일", "화요일", "수요일", "목요일", "금요일"};
-    private final String[] PERIODS = {"1교시", "2교시", "3교시", "4교시", "5교시", 
-    		"6교시", "7교시", "8교시", "9교시", "10교시"};
+    private final String[] PERIODS = {"09:00", "10:00", "11:00", "12:00"
+    		, "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"};
     
     private String[][] tableData = new String[WEEKDAY.length-1][PERIODS.length];
 	

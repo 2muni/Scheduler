@@ -80,5 +80,7 @@ public class CalendarModel {
 		}
 		cal = new GregorianCalendar(calYear,calMonth,calDayOfMon);
 		inputCalData(cal);
-	}	
+	}
+	
+	
 }

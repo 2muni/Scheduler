@@ -15,8 +15,7 @@ public class DBConnection {
             String pw = "p1401203";
             String url = "jdbc:oracle:thin:@localhost:1521:xe";
             
-            Class.forName("oracle.jdbc.driver.OracleDriver");  
-            System.out.println("DB드라이브를 적재하였습니다.\n");
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             
             conn = DriverManager.getConnection(url, user, pw);            
             System.out.println("DB에 연결되었습니다.\n");

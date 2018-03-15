@@ -1,7 +1,6 @@
 package timetable;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -44,8 +43,7 @@ public class TimetableView extends JPanel{
 				weekday[col].setVisible(false);
 			control.setWeekday(col);
 			weekday[col].setHorizontalAlignment(JLabel.CENTER);
-			weekday[col].setFont(new Font("¸¼Àº °íµñ", Font.BOLD,24));
-			weekday[col].setBackground(Color.WHITE);
+			weekday[col].setFont(control.prop.getFont24(false));
 			weekday[col].setOpaque(true);
 			add(weekday[col]);
 		}
@@ -58,13 +56,12 @@ public class TimetableView extends JPanel{
 				if(col == 0) {
 					control.setPeriods(row);
 					periods[row].setHorizontalAlignment(JLabel.CENTER);
-					periods[row].setFont(new Font("¸¼Àº °íµñ", Font.BOLD,24));
-					periods[row].setBackground(Color.WHITE);
+					periods[row].setFont(control.prop.getFont24(false));
 					periods[row].setOpaque(true);
 					add(periods[row]);
 				}
 				control.setTable(row, col);
-				tableButs[col][row].setFont(new Font("¸¼Àº °íµñ", Font.PLAIN,20));
+				tableButs[col][row].setFont(control.prop.getFont16(false));
 				tableButs[col][row].setBorderPainted(false);
 				tableButs[col][row].setContentAreaFilled(false);
 				tableButs[col][row].setBackground(Color.WHITE);
