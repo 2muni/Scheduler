@@ -12,32 +12,29 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import scheduler.Container;
 import system.Properties;
 
 
 public class CalendarControl {
 	
-	Properties prop;
 	CalendarView view;
 	CalendarModel model;
 	
 	Thread timeThread;
 	
-	String curYYYYMMLab, curYYYYMMDDLab, selYYYYMMDDLab;
-	
-	String dDayString;
-	final String DIR_OF_MEMO;
-	String fileName;  
-	
 	final int NUMBER_OF_COLS;
 	final int NUMBER_OF_ROWS;
-	
-	
-	CalendarControl(CalendarView view){
+	final String DIR_OF_MEMO;	
+	String fileName; 
+	String curYYYYMMLab, curYYYYMMDDLab, selYYYYMMDDLab;	
+	String dDayString;
 
-		prop = new Properties();
+	
+	public CalendarControl(CalendarView view, CalendarModel model){
+		
 		this.view = view;
-		model = new CalendarModel();
+		this.model = model;
 		timeThread = new Thread(new ThreadControl());
 		
 		DIR_OF_MEMO = "MemoData/";		
@@ -61,13 +58,15 @@ public class CalendarControl {
 		curYYYYMMDDLab = model.today.get(Calendar.YEAR) + "-"
 				+ ((model.today.get(Calendar.MONTH)+1)<10?"0":"")
 				+ (model.today.get(Calendar.MONTH)+1) + "-"
+				+ (model.today.get(Calendar.DAY_OF_MONTH)<10?"0":"")
 				+ model.today.get(Calendar.DAY_OF_MONTH) + " "
 				+ model.WEEK_DAY_NAME[(model.today.get(Calendar.DAY_OF_WEEK)-1)] + "요일";
 		
-		selYYYYMMDDLab = model.today.get(Calendar.YEAR) + "/"
-				+ ((model.today.get(Calendar.MONTH)+1)<10?"0":"")
-				+ (model.today.get(Calendar.MONTH)+1) + "/"
-				+ model.today.get(Calendar.DAY_OF_MONTH) + " ("+dDayString+")";
+		selYYYYMMDDLab = model.cal.get(Calendar.YEAR) + "/"
+				+ ((model.cal.get(Calendar.MONTH)+1)<10?"0":"")
+				+ (model.cal.get(Calendar.MONTH)+1) + "/"
+				+ (model.cal.get(Calendar.DAY_OF_MONTH)<10?"0":"")
+				+ model.cal.get(Calendar.DAY_OF_MONTH) + " ("+dDayString+")";
 		
 		fileName = model.calYear
 				+ ((model.calMonth+1)<10?"0":"")
@@ -140,7 +139,7 @@ public class CalendarControl {
 					String infoStr = view.noticeLab.getText();
 					
 					if(infoStr != " " && (msgCntFlag == false || curStr != infoStr)){
-						num = 5;
+						num = 3;
 						msgCntFlag = true;
 						curStr = infoStr;
 					}
@@ -153,7 +152,7 @@ public class CalendarControl {
 					}		
 				}
 				catch(InterruptedException e){
-					System.out.println("Thread:Error");
+					System.out.println("Error: " + e);
 				}
 			}
 		}
@@ -164,6 +163,7 @@ public class CalendarControl {
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == view.todayBut){
 				model.setToday();
+				view.dateAction.actionPerformed(e);
 			}
 			else if(e.getSource() == view.lYearBut) model.moveMonth(-12);
 			else if(e.getSource() == view.lMonBut) model.moveMonth(-1);
@@ -180,18 +180,13 @@ public class CalendarControl {
 	public class ListenForDateButtons implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 						
-			int k=0,l=0;
 			for(int row = 0; row < NUMBER_OF_ROWS; row++){
 				for(int col = 0; col < NUMBER_OF_COLS; col++){
-					if(e.getSource() == view.dateButs[row][col]){ 
-						k=row;
-						l=col;
-					}
+					if(e.getSource() == view.dateButs[row][col])
+						model.calDayOfMon = model.calDates[row][col];			
 				}
 			}
 
-			if(!(k ==0 && l == 0)) model.calDayOfMon = model.calDates[k][l]; //today버튼을 눌렀을때도 이 actionPerformed함수가 실행되기 때문에 넣은 부분
-			
 			model.cal = new GregorianCalendar(model.calYear, model.calMonth, model.calDayOfMon);
 						
 			int dDay=((int)((model.cal.getTimeInMillis() - model.today.getTimeInMillis())/1000/60/60/24));

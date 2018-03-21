@@ -11,9 +11,9 @@ public class DBConnection {
         Connection conn = null;
         
         try {
-            String user = "s1401203"; 
-            String pw = "p1401203";
-            String url = "jdbc:oracle:thin:@localhost:1521:xe";
+            String user = "scheduler"; 
+            String pw = "scheduler";
+            String url = "jdbc:oracle:thin:@localhost:1521:orcl";
             
             Class.forName("oracle.jdbc.driver.OracleDriver");
             

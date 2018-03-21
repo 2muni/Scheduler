@@ -10,7 +10,7 @@ import system.DBConnection;
 public class TimetableModel {
 	
 	
-    private final String[] WEEKDAY = {"", "월요일", "화요일", "수요일", "목요일", "금요일"};
+    private final String[] WEEKDAY = {"SETTING", "월요일", "화요일", "수요일", "목요일", "금요일"};
     private final String[] PERIODS = {"09:00", "10:00", "11:00", "12:00"
     		, "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"};
     
@@ -21,7 +21,9 @@ public class TimetableModel {
     private PreparedStatement pstm = null;
     private ResultSet rs = null;
 	
-	TimetableModel() {
+    private String[] DB_TIMETABLE_COLS = {"mon", "tue", "wed", "thu", "fri"};
+    
+	public TimetableModel() {
 		setDate();
 	}
 	
@@ -32,18 +34,15 @@ public class TimetableModel {
         	conn = dbConn.getConnection();
         	for(int col = 0; col < WEEKDAY.length-1; col++) {
         		
-            String quary = "SELECT period, sname"
-            		+ " FROM timetable"
-            		+ " JOIN lectures USING(sbjno)" 
-            		+ " WHERE time BETWEEN " 
-            		+ (1000*(col+1)) + " AND " + (1000*(col+1)+1000)
-            		+ " ORDER BY period";
+            String query = "SELECT t.time_id, l.lecture_name"
+            		+ " FROM lectures l JOIN timetable t"
+            		+ " ON (l.lecture_id = t." + DB_TIMETABLE_COLS[col] +")";
             
-            pstm = conn.prepareStatement(quary);
+            pstm = conn.prepareStatement(query);
             rs = pstm.executeQuery();
             
             	while(rs.next())
-            		tableData[col][rs.getInt("period")-1] = rs.getString("sname");       	          	
+            		tableData[col][rs.getInt("time_id")] = rs.getString("lecture_name");       	          	
         	}        	
         } catch (SQLException sqle) {       	
             System.out.println("SELECT문에서 예외 발생");

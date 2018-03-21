@@ -4,17 +4,16 @@ import system.Properties;
 
 public class TimetableControl {
 	
-	Properties prop;
 	TimetableView view;
 	TimetableModel model;
 	
 	final int NUMBER_OF_COLS;
 	final int NUMBER_OF_ROWS;
 	
-	TimetableControl(TimetableView view){
-		prop = new Properties();
+	TimetableControl(TimetableView view, TimetableModel model){
+		
 		this.view = view;
-		model = new TimetableModel();
+		this.model = model;
 		
 		NUMBER_OF_COLS = model.NUMBER_OF_COLS();
 		NUMBER_OF_ROWS = model.NUMBER_OF_ROWS();

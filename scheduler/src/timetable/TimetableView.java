@@ -7,16 +7,21 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import scheduler.Container;
+import system.Properties;
+
 public class TimetableView extends JPanel{
 	TimetableControl control;
-	
+	Properties prop;
 	public JLabel[] weekday;
 	public JLabel[] periods;
 	public JButton[][] tableButs;
+	public JButton settingBut;
 	
-	public TimetableView(){
+	public TimetableView(Container c){
+		prop = c.prop;
 		
-		control = new TimetableControl(this);
+		control = new TimetableControl(this, c.timetableM);
 		
 		weekday = new JLabel[control.NUMBER_OF_COLS];
 			for(int col = 0; col < control.NUMBER_OF_COLS; col++)
@@ -37,13 +42,13 @@ public class TimetableView extends JPanel{
 	}
 	
 	private void addWeekdayObjs() {
-		
+
 		for(int col = 0; col < control.NUMBER_OF_COLS; col++) {
-			if(col == 0)
-				weekday[col].setVisible(false);
 			control.setWeekday(col);
+			if(col == 0) 
+				weekday[col].setVisible(false);
 			weekday[col].setHorizontalAlignment(JLabel.CENTER);
-			weekday[col].setFont(control.prop.getFont24(false));
+			weekday[col].setFont(prop.getFont24(false));
 			weekday[col].setOpaque(true);
 			add(weekday[col]);
 		}
@@ -56,12 +61,12 @@ public class TimetableView extends JPanel{
 				if(col == 0) {
 					control.setPeriods(row);
 					periods[row].setHorizontalAlignment(JLabel.CENTER);
-					periods[row].setFont(control.prop.getFont24(false));
+					periods[row].setFont(prop.getFont24(false));
 					periods[row].setOpaque(true);
 					add(periods[row]);
 				}
 				control.setTable(row, col);
-				tableButs[col][row].setFont(control.prop.getFont16(false));
+				tableButs[col][row].setFont(prop.getFont16(false));
 				tableButs[col][row].setBorderPainted(false);
 				tableButs[col][row].setContentAreaFilled(false);
 				tableButs[col][row].setBackground(Color.WHITE);

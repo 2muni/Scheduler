@@ -1,5 +1,6 @@
 package scheduler;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
@@ -12,7 +13,11 @@ import timetable.TimetableView;
 public class Scheduler extends JFrame {
 	Properties prop;
 	
+	Container control;
+	
 	Scheduler(){
+		
+		control = new Container();
 		
 		try{
 			UIManager.setLookAndFeel ("javax.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -29,11 +34,12 @@ public class Scheduler extends JFrame {
         setLocationRelativeTo(null);
         
         JTabbedPane tab = new JTabbedPane();
+        
+        
         tab.setFont(prop.getFont16(false));
         
-        
-        TimetableView tab_1 = new TimetableView();
-        CalendarView tab_2 = new CalendarView(); 
+        TimetableView tab_1 = new TimetableView(control);
+        CalendarView tab_2 = new CalendarView(control); 
         tab.addTab("시간표", tab_1);
         tab.addTab("달력", tab_2);
         
